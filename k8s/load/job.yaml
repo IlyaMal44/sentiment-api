@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sentiment-load
+  labels:
+    app: sentiment-load
+spec:
+  backoffLimit: 1
+  parallelism: 6
+  completions: 6
+  ttlSecondsAfterFinished: 600
+  template:
+    metadata:
+      labels:
+        app: sentiment-load
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: load
+          image: busybox:1.36
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              end=$(( $(date +%s) + 180 ))
+              while [ "$(date +%s)" -lt "$end" ]; do
+                wget -q -O- "http://sentiment-api/api/sentiment?text=hello" >/dev/null || true
+              done

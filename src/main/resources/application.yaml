@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: sentiment-api
+
+server:
+  port: 8080
+
+info:
+  app:
+    name: sentiment-api
+    description: Mock sentiment analysis deployed on Kubernetes
+
+management:
+  endpoints:
+    access:
+      default: read-only
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+  metrics:
+    tags:
+      application: sentiment-api

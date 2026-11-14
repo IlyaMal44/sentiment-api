@@ -1,0 +1,12 @@
+grafana:
+  adminPassword: Sentiment-Lab-2026
+
+prometheus:
+  prometheusSpec:
+    retention: 6h
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+      limits:
+        memory: 1536Mi
