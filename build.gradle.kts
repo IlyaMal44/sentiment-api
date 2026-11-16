@@ -8,8 +8,8 @@ group = "com.example.sentimentapi"
 version = "0.0.1-SNAPSHOT"
 
 java {
-	// Байткод 21 запускается на урезанном runtime внутри образа.
-	// JDK на хосте может быть новее; release 21 оставляет образ на LTS JRE.
+	// Байткод 21, чтобы урезанный runtime в образе его запускал
+	// На хосте jdk может быть новее
 	sourceCompatibility = JavaVersion.VERSION_21
 	targetCompatibility = JavaVersion.VERSION_21
 }

@@ -27,6 +27,7 @@ public class SentimentAnalyzer {
 		this.registry = registry;
 	}
 
+	/** Считает метку и увеличивает счетчик sentiment.analyses */
 	public String analyze(String text) {
 		String label = labelOf(text);
 		int cost = analysisCost(text);
@@ -34,6 +35,7 @@ public class SentimentAnalyzer {
 		return label;
 	}
 
+	/** Отрицательное слово важнее положительного, иначе neutral */
 	static String labelOf(String text) {
 		List<String> tokens = tokens(text);
 		if (tokens.stream().anyMatch(NEGATIVE::contains)) {
@@ -45,11 +47,7 @@ public class SentimentAnalyzer {
 		return "neutral";
 	}
 
-	/**
-	 * Фиксированная замена стоимости инференса. Метка от нее не зависит.
-	 * Под параллельной нагрузкой цикл дает сигнал CPU, который видит HPA.
-	 * Возвращаемое значение читает вызывающий код, чтобы JIT не выкинул цикл.
-	 */
+	/** На метку не влияет, под нагрузкой дает cpu, чтобы hpa было что смотреть */
 	static int analysisCost(String text) {
 		int acc = text.hashCode();
 		for (int i = 0; i < ANALYSIS_BUDGET; i++) {
@@ -58,6 +56,7 @@ public class SentimentAnalyzer {
 		return acc;
 	}
 
+	/** Режет строку на слова и выкидывает знаки препинания */
 	private static List<String> tokens(String text) {
 		String[] parts = text.toLowerCase(Locale.ROOT).split("[^\\p{L}\\p{Nd}]+");
 		return java.util.Arrays.stream(parts).filter(part -> !part.isEmpty()).toList();

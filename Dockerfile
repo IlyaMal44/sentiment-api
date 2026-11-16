@@ -1,5 +1,5 @@
-# Сборка в несколько стадий. В итоговый образ попадает runtime jlink, а не полный JRE:
-# один eclipse-temurin:21-jre-alpine занимает около 200 МБ и выше лимита 150 МБ.
+# Несколько стадий: в образ кладем runtime jlink, а не полный jre
+# eclipse-temurin:21-jre-alpine сам по себе около 200 МБ и не проходит лимит 150 МБ
 FROM eclipse-temurin:21-jdk-alpine AS build
 WORKDIR /src
 COPY gradlew settings.gradle.kts build.gradle.kts ./
